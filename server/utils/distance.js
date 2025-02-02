@@ -1,0 +1,28 @@
+function calculateDistance(lat1, lon1, hospital) {
+  // Validate hospital data
+  if (!hospital || !hospital.coordinates || 
+      typeof hospital.coordinates.lat !== 'number' || 
+      typeof hospital.coordinates.lng !== 'number') {
+    console.warn('Invalid hospital data for distance calculation:', hospital);
+    return Infinity;
+  }
+
+  const lat2 = hospital.coordinates.lat;
+  const lon2 = hospital.coordinates.lng;
+  
+  const R = 6371; // Radius of the earth in km
+  const dLat = deg2rad(lat2 - lat1);
+  const dLon = deg2rad(lon2 - lon1);
+  const a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c; // Distance in km
+}
+
+function deg2rad(deg) {
+  return deg * (Math.PI/180);
+}
+
+module.exports = { calculateDistance };
