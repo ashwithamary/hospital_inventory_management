@@ -3,14 +3,10 @@ const router = express.Router();
 const locationController = require('../controllers/locations');
 const { getNearestHospitals } = require('../controllers/locations');
 
-
-// Get all locations
 router.get('/', locationController.getLocations);
 
-// Get location statistics
 router.get('/stats', locationController.getLocationStats);
 
-// Find nearest hospitals with available ventilators
 router.post('/nearest',getNearestHospitals);
 
 const DEBUG = true;
@@ -23,7 +19,6 @@ router.post('/nearest', async (req, res) => {
   
       const { lat, lng } = req.body;
   
-      // Validate coordinates
       if (!lat || !lng || isNaN(Number(lat)) || isNaN(Number(lng))) {
         return res.status(400).json({
           success: false,
@@ -31,11 +26,9 @@ router.post('/nearest', async (req, res) => {
         });
       }
   
-      // Convert to numbers
       const latitude = Number(lat);
       const longitude = Number(lng);
   
-      // Mock data for testing (replace this with your actual data source)
       const hospitals = [
         {
           id: 'central',
@@ -45,10 +38,8 @@ router.post('/nearest', async (req, res) => {
           ventilators: 80,
           distance: 0
         },
-        // Add more mock hospitals if needed
       ];
   
-      // Calculate distances
       const hospitalsWithDistance = hospitals.map(hospital => ({
         ...hospital,
         distance: calculateDistance(
@@ -59,7 +50,6 @@ router.post('/nearest', async (req, res) => {
         )
       }));
   
-      // Sort by distance
       const sortedHospitals = hospitalsWithDistance.sort((a, b) => a.distance - b.distance);
   
       if (DEBUG) {
@@ -85,7 +75,7 @@ router.post('/nearest', async (req, res) => {
   });
   
   function calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Radius of the Earth in km
+    const R = 6371; 
     const dLat = deg2rad(lat2 - lat1);
     const dLon = deg2rad(lon2 - lon1);
     const a = 
@@ -93,7 +83,7 @@ router.post('/nearest', async (req, res) => {
       Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
       Math.sin(dLon/2) * Math.sin(dLon/2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    return R * c; // Distance in km
+    return R * c; 
   }
   
   function deg2rad(deg) {

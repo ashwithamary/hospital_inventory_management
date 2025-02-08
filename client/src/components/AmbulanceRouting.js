@@ -47,9 +47,7 @@ function AmbulanceRouting() {
     try {
       setLoading(true);
       setError('');
-      
-      console.log('Sending coordinates:', coords); // Debug log
-  
+        
       const response = await fetch('http://localhost:5000/api/locations/nearest', {
         method: 'POST',
         headers: {
@@ -67,9 +65,7 @@ function AmbulanceRouting() {
       if (!response.ok) {
         throw new Error(data.message || 'Server error');
       }
-  
-      console.log('Received response:', data); // Debug log
-  
+    
       if (!data.hospitals || !Array.isArray(data.hospitals)) {
         throw new Error('Invalid response format from server');
       }

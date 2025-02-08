@@ -79,10 +79,9 @@ function Inventory() {
       field,
       order: prevConfig.field === field && prevConfig.order === 'asc' ? 'desc' : 'asc',
     }));
-    setPage(1); // Reset to first page when sorting
+    setPage(1); 
   };
 
-  // Table headers configuration
   const headers = [
     { id: 'name', label: 'Name', sortable: true },
     { id: 'quantity', label: 'Quantity', sortable: true },
@@ -92,7 +91,6 @@ function Inventory() {
     { id: 'actions', label: 'Actions', sortable: false },
   ];
 
-  // Rest of your existing handlers...
   const handleDelete = async (id) => {
     try {
       await fetch(`http://localhost:5000/api/inventory/${id}`, { method: 'DELETE' });
@@ -112,7 +110,6 @@ function Inventory() {
   const handleFormSubmit = async (formData) => {
     try {
       setLoading(true);
-      console.log('Submitting form data:', formData); // Debug log
   
       const url = editingItem 
         ? `http://localhost:5000/api/inventory/${editingItem._id}`
@@ -126,12 +123,11 @@ function Inventory() {
         },
         body: JSON.stringify({
           ...formData,
-          quantity: parseInt(formData.quantity, 10), // Ensure quantity is a number
+          quantity: parseInt(formData.quantity, 10),
         })
       });
   
       const result = await response.json();
-      console.log('Server response:', result); // Debug log
   
       if (!response.ok) {
         throw new Error(result.message || 'Operation failed');
@@ -176,7 +172,6 @@ function Inventory() {
 
   return (
     <Box>
-      {/* Header */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h4">Inventory Management</Typography>
         <Button

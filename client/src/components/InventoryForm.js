@@ -114,7 +114,6 @@ function InventoryForm({ open, onClose, onSubmit, initialData }) {
     }
 
     try {
-      // Format data before submission
       const submitData = {
         ...formData,
         quantity: parseInt(formData.quantity, 10),
@@ -137,7 +136,6 @@ function InventoryForm({ open, onClose, onSubmit, initialData }) {
       [name]: newValue
     }));
 
-    // Clear error when field is edited
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,

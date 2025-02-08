@@ -20,7 +20,6 @@ const inventorySchema = new mongoose.Schema({
   hospitalLocation: {
     type: String,
     required: true,
-    enum: locationNames,
     index: true
   },
   isVentilator: {
@@ -40,7 +39,6 @@ const inventorySchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Add index for faster location-based queries
 inventorySchema.index({ hospitalLocation: 1, isVentilator: 1 });
 
 module.exports = mongoose.model('Inventory', inventorySchema);

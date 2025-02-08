@@ -16,15 +16,65 @@ function VentilatorDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [socketConnected, setSocketConnected] = useState(false);
+  const HOSPITAL_NAMES = {
+    0: 'Central Hospital',
+    1: 'City General Hospital',
+    2: 'Metropolitan Medical Center',
+    3: 'North Wing Medical Center',
+    4: 'South District Hospital',
+    5: 'Emergency Care Unit 1',
+    6: 'Trauma Center North',
+    7: 'Central Storage A',
+    8: 'Central Storage B',
+    9: 'ICU Complex',
+    10: 'Central General Hospital',
+    11: 'City Central Medical Center',
+    12: 'Metro Central Hospital',
+    13: 'North General Hospital',
+    14: 'North Medical Institute',
+    15: 'North Specialty Hospital',
+    16: 'South General Hospital',
+    17: 'South Medical Center',
+    18: 'North Regional Center 1',
+    19: 'North Regional Center 2',
+    20: 'North Regional Center 3',
+    21: 'South Regional Center 1',
+    22: 'South Regional Center 2',
+    23: 'Central Emergency Center 1',
+    24: 'North Emergency Center 1',
+    25: 'South Emergency Center 1',
+    26: 'East General Hospital',
+    27: 'East Medical Center',
+    28: 'West General Hospital',
+    29: 'West Medical Center',
+    30: 'East Regional Center 1',
+    31: 'West Regional Center 1',
+    32: 'Northeast General Hospital',
+    33: 'Northeast Medical Center',
+    34: 'Northeast Regional Center 1',
+    35: 'Southwest General Hospital',
+    36: 'Southwest Medical Center',
+    37: 'Southwest Regional Center 1',
+    38: 'Northeast Emergency Center',
+    39: 'Southwest Emergency Center',
+    40: 'Cardiac Specialty Center',
+    41: 'Neurology Specialty Center',
+    42: 'North Regional Center 4',
+    43: 'South Regional Center 3',
+    44: 'Central Storage C',
+    45: 'Central Storage D',
+    46: 'Central Specialty Hospital',
+    47: 'North Advanced Care Hospital',
+    48: 'South Advanced Care Hospital',
+    49: 'Central Research Hospital'
+  };
+
 
   useEffect(() => {
-    // Initialize socket connection
     const newSocket = io('http://localhost:5000');
     
-    // Fetch initial data
     fetchVentilatorStatus();
 
-    // Socket event listeners
     newSocket.on('connect', () => {
       console.log('Connected to server');
       setSocketConnected(true);
@@ -50,7 +100,6 @@ function VentilatorDashboard() {
       }
     });
 
-    // Cleanup on unmount
     return () => {
       newSocket.disconnect();
     };
@@ -74,35 +123,32 @@ function VentilatorDashboard() {
 
   const fetchVentilatorStatus = async () => {
     try {
-      setLoading(true);
       const response = await fetch('http://localhost:5000/api/inventory/ventilators');
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error('Failed to fetch ventilator data');
       }
       const data = await response.json();
-      console.log('Received ventilator data:', data);
-
-      if (!data.success) {
-        throw new Error(data.message || 'Failed to fetch ventilator data');
+      
+      if (data.success && data.ventilatorStatus) {
+        setVentilatorData(data.ventilatorStatus);
+      } else {
+        throw new Error(data.message || 'Invalid data format');
       }
-
-      setVentilatorData(data.ventilatorStatus || {});
       setError('');
     } catch (err) {
       console.error('Error fetching ventilator status:', err);
-      setError(err.message || 'Failed to fetch ventilator data');
-      setVentilatorData({});
+      setError('Failed to fetch ventilator data');
     } finally {
       setLoading(false);
     }
   };
 
   const getStatusColor = (available, total) => {
-    if (total === 0) return '#757575'; // Gray for no ventilators
+    if (total === 0) return '#757575'; 
     const ratio = available / total;
-    if (ratio >= 0.5) return '#4caf50'; // Green
-    if (ratio >= 0.2) return '#ff9800'; // Orange
-    return '#f44336'; // Red
+    if (ratio >= 0.5) return '#4caf50';
+    if (ratio >= 0.2) return '#ff9800'; 
+    return '#f44336'; 
   };
 
   if (loading) {
@@ -129,14 +175,13 @@ function VentilatorDashboard() {
           {error}
         </Alert>
       )}
-
       <Grid container spacing={3}>
-        {Object.entries(ventilatorData).map(([location, data]) => (
-          <Grid item xs={12} sm={6} md={4} key={location}>
+        {Object.entries(ventilatorData).map(([locationId, data]) => (
+          <Grid item xs={12} sm={6} md={4} key={locationId}>
             <Card>
               <CardContent>
                 <Typography variant="h6" gutterBottom>
-                  {location}
+                  {HOSPITAL_NAMES[locationId] || `Location ${locationId}`}
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                   <Box

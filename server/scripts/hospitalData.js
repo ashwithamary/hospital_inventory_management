@@ -1,6 +1,5 @@
-const calculateDistance = require('../utils/distance');
 
-const hospitalLocations = [
+const hospitalData = [
     {
         id: 'central',
         name: 'Central Hospital',
@@ -9,7 +8,7 @@ const hospitalLocations = [
         capacity: 1000,
         coordinates: { lat: 12.9716, lng: 77.5946 },
         ventilatorCapacity: 50,
-        alertThreshold: 20
+        alertThreshold: 20 // percentage
     },
     // Major Hospitals
     {
@@ -501,32 +500,5 @@ const hospitalLocations = [
     }
   
   ];
-
-const getLocationById = (id) => hospitalLocations.find(loc => loc.id === id);
-const getLocationsByType = (type) => hospitalLocations.filter(loc => loc.type === type);
-const getLocationsByRegion = (region) => hospitalLocations.filter(loc => loc.region === region);
-const getAllRegions = () => [...new Set(hospitalLocations.map(loc => loc.region))];
-const getAllTypes = () => [...new Set(hospitalLocations.map(loc => loc.type))];
-const getNearestHospitals = (coordinates, count = 5) => {
-  return hospitalLocations
-    .map(hospital => ({
-      ...hospital,
-      distance: calculateDistance(coordinates, hospital.coordinates)
-    }))
-    .sort((a, b) => a.distance - b.distance)
-    .slice(0, count);
-};
-
-const locationNames = hospitalLocations.map(loc => loc.name);
-
-module.exports = {
-  locations: hospitalLocations,
-  locationNames,
-  getLocationById,
-  getLocationsByType,
-  getLocationsByRegion,
-  getAllRegions,
-  getAllTypes,
-  getNearestHospitals,
-  calculateDistance
-};
+  
+  module.exports = hospitalData;

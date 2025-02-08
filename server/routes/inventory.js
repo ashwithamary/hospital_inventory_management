@@ -9,7 +9,6 @@ const {
   getVentilatorStatus
 } = require('../controllers/inventory');
 
-// Remove the errorHandler wrapper and use the route handlers directly
 router.get('/', getInventory);
 router.get('/ventilators', getVentilatorStatus);
 router.get('/:id', getInventoryItem);

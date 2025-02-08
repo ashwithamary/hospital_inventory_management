@@ -53,7 +53,7 @@ exports.getLocationStats = async (req, res) => {
       capacity: location.capacity,
       ventilatorCapacity: location.ventilatorCapacity,
       alertThreshold: location.alertThreshold,
-      coordinates: location.coordinates, // Make sure coordinates are included
+      coordinates: location.coordinates,
       totalItems: statsMap[location.name]?.totalItems || 0,
       ventilators: statsMap[location.name]?.ventilators || 0
     }));
@@ -138,7 +138,7 @@ exports.getNearestHospitals = async (req, res) => {
           distance: calculateDistance(latitude, longitude, hospital)
         };
       })
-      .filter(hospital => hospital !== null) // Remove hospitals with missing coordinates
+      .filter(hospital => hospital !== null) 
       .sort((a, b) => a.distance - b.distance)
       .slice(0, 5);
 
