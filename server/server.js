@@ -10,8 +10,12 @@ const app = express();
 const httpServer = createServer(app);
 
 app.use(cors({
-  origin: true,
-  credentials: false
+  origin: [
+    'http://localhost:3000',                          
+    'https://hospital-inventory-management.vercel.app/',            
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
@@ -19,8 +23,11 @@ app.use(express.urlencoded({ extended: true }));
 
 const io = new Server(httpServer, {
   cors: {
-    origin: 'http://localhost:3000',
-    methods: ["GET", "POST", "PUT", "DELETE"]
+    origin: [
+      'http://localhost:3000',                          
+      'https://hospital-inventory-management.vercel.app/',            
+    ],
+      methods: ["GET", "POST", "PUT", "DELETE"]
   }
 });
 

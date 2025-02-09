@@ -1,5 +1,4 @@
 function calculateDistance(lat1, lon1, hospital) {
-  // Validate hospital data
   if (!hospital || !hospital.coordinates || 
       typeof hospital.coordinates.lat !== 'number' || 
       typeof hospital.coordinates.lng !== 'number') {
@@ -10,7 +9,7 @@ function calculateDistance(lat1, lon1, hospital) {
   const lat2 = hospital.coordinates.lat;
   const lon2 = hospital.coordinates.lng;
   
-  const R = 6371; // Radius of the earth in km
+  const R = 6371; 
   const dLat = deg2rad(lat2 - lat1);
   const dLon = deg2rad(lon2 - lon1);
   const a = 
@@ -18,7 +17,7 @@ function calculateDistance(lat1, lon1, hospital) {
     Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
     Math.sin(dLon/2) * Math.sin(dLon/2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  return R * c; // Distance in km
+  return R * c; 
 }
 
 function deg2rad(deg) {
