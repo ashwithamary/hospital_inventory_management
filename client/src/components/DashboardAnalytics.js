@@ -106,7 +106,7 @@ function DashboardAnalytics() {
       console.log('Starting analytics fetch...');
 
       // Fetch ventilator status first
-      const ventResponse = await fetch('${BASE_URL}/api/inventory/ventilators');
+      const ventResponse = await fetch(`${BASE_URL}/api/inventory/ventilators`);
       if (!ventResponse.ok) throw new Error('Failed to fetch ventilator data');
       const ventData = await ventResponse.json();
 
@@ -127,7 +127,7 @@ function DashboardAnalytics() {
       });
 
       // Fetch inventory items
-      const response = await fetch('${BASE_URL}/api/inventory');
+      const response = await fetch(`${BASE_URL}/api/inventory`);
       if (!response.ok) throw new Error('Failed to fetch inventory data');
       const { items } = await response.json();
       console.log('Inventory items received:', items.length);
@@ -147,7 +147,7 @@ function DashboardAnalytics() {
       }));
 
       // Fetch hospital locations
-      const locResponse = await fetch('${BASE_URL}/api/locations/stats');
+      const locResponse = await fetch(`${BASE_URL}/api/locations/stats`);
       if (!locResponse.ok) throw new Error('Failed to fetch location data');
       const { stats: locations } = await locResponse.json();
       console.log('Locations received:', locations);
