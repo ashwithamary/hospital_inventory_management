@@ -49,7 +49,7 @@ function LocationDashboard() {
   const fetchLocationData = async () => {
     try {
       setLoading(true);
-      const response = await fetch('${BASE_URL}/api/locations/stats', {
+      const response = await fetch(`${BASE_URL}/api/locations/stats`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',

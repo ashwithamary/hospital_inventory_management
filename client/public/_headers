@@ -1,0 +1,4 @@
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://hospital-inventory-management.onrender.com
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff

@@ -10,6 +10,7 @@ import {
   Paper,
 } from '@mui/material';
 import io from 'socket.io-client';
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 function VentilatorDashboard() {
   const [ventilatorData, setVentilatorData] = useState({});
@@ -71,8 +72,12 @@ function VentilatorDashboard() {
 
 
   useEffect(() => {
-    const newSocket = io(process.env.REACT_APP_API_URL || 'http://localhost:5000');
+    const newSocket = io(process.env.REACT_APP_API_URL || 'http://localhost:5000', {
+      transports: ['websocket'],
+      withCredentials: true
+    });
     
+        
     fetchVentilatorStatus();
 
     newSocket.on('connect', () => {
@@ -123,7 +128,7 @@ function VentilatorDashboard() {
 
   const fetchVentilatorStatus = async () => {
     try {
-      const response = await fetch('${BASE_URL}/api/inventory/ventilators');
+      const response = await fetch(`${BASE_URL}/api/inventory/ventilators`);
       if (!response.ok) {
         throw new Error('Failed to fetch ventilator data');
       }

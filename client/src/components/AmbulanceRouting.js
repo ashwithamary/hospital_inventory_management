@@ -50,7 +50,7 @@ function AmbulanceRouting() {
       setLoading(true);
       setError('');
         
-      const response = await fetch('${BASE_URL}/api/locations/nearest', {
+      const response = await fetch(`${BASE_URL}/api/locations/nearest`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
