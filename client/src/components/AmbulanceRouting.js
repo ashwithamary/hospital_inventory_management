@@ -27,6 +27,8 @@ function AmbulanceRouting() {
   const [manualCoords, setManualCoords] = useState({ lat: '12.9716', lng: '77.5946' });
   const [retryCount, setRetryCount] = useState(0);
   const MAX_RETRIES = 3;
+  const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 
   const validateCoordinates = (coords) => {
     const lat = parseFloat(coords.lat);
@@ -48,7 +50,7 @@ function AmbulanceRouting() {
       setLoading(true);
       setError('');
         
-      const response = await fetch('http://localhost:5000/api/locations/nearest', {
+      const response = await fetch('${BASE_URL}/api/locations/nearest', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',

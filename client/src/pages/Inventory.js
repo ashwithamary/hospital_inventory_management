@@ -44,13 +44,14 @@ function Inventory() {
     field: 'createdAt',
     order: 'desc'
   });
+  const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
   // Fetch inventory data
   const fetchInventory = async () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `http://localhost:5000/api/inventory?page=${page}&limit=${itemsPerPage}&search=${searchTerm}&sortField=${sortConfig.field}&sortOrder=${sortConfig.order}`
+        `${BASE_URL}/api/inventory?page=${page}&limit=${itemsPerPage}&search=${searchTerm}&sortField=${sortConfig.field}&sortOrder=${sortConfig.order}`
       );
       
       if (!response.ok) {
@@ -93,7 +94,7 @@ function Inventory() {
 
   const handleDelete = async (id) => {
     try {
-      await fetch(`http://localhost:5000/api/inventory/${id}`, { method: 'DELETE' });
+      await fetch(`${BASE_URL}/api/inventory/${id}`, { method: 'DELETE' });
       setSnackbar({ open: true, message: 'Item deleted successfully', severity: 'success' });
       fetchInventory();
     } catch (err) {
@@ -112,8 +113,8 @@ function Inventory() {
       setLoading(true);
   
       const url = editingItem 
-        ? `http://localhost:5000/api/inventory/${editingItem._id}`
-        : 'http://localhost:5000/api/inventory';
+        ? `${BASE_URL}/api/inventory/${editingItem._id}`
+        : '${BASE_URL}/api/inventory';
   
       const response = await fetch(url, {
         method: editingItem ? 'PUT' : 'POST',

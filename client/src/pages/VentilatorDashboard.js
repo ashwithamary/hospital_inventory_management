@@ -71,7 +71,7 @@ function VentilatorDashboard() {
 
 
   useEffect(() => {
-    const newSocket = io('http://localhost:5000');
+    const newSocket = io(process.env.REACT_APP_API_URL || 'http://localhost:5000');
     
     fetchVentilatorStatus();
 
@@ -123,7 +123,7 @@ function VentilatorDashboard() {
 
   const fetchVentilatorStatus = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/inventory/ventilators');
+      const response = await fetch('${BASE_URL}/api/inventory/ventilators');
       if (!response.ok) {
         throw new Error('Failed to fetch ventilator data');
       }

@@ -7,7 +7,14 @@ import {
   Box, Card, CardContent, Grid, Typography, CircularProgress, Alert
 } from '@mui/material';
 
+console.log('Environment Variables:', {
+  REACT_APP_API_URL: process.env.REACT_APP_API_URL,
+  NODE_ENV: process.env.NODE_ENV
+});
+
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+console.log('API URL being used:', BASE_URL);
 
 const HOSPITAL_NAMES = {
   0: 'Central Hospital',
@@ -99,7 +106,7 @@ function DashboardAnalytics() {
       console.log('Starting analytics fetch...');
 
       // Fetch ventilator status first
-      const ventResponse = await fetch('http://localhost:5000/api/inventory/ventilators');
+      const ventResponse = await fetch('${BASE_URL}/api/inventory/ventilators');
       if (!ventResponse.ok) throw new Error('Failed to fetch ventilator data');
       const ventData = await ventResponse.json();
 
@@ -120,7 +127,7 @@ function DashboardAnalytics() {
       });
 
       // Fetch inventory items
-      const response = await fetch('http://localhost:5000/api/inventory');
+      const response = await fetch('${BASE_URL}/api/inventory');
       if (!response.ok) throw new Error('Failed to fetch inventory data');
       const { items } = await response.json();
       console.log('Inventory items received:', items.length);
@@ -140,7 +147,7 @@ function DashboardAnalytics() {
       }));
 
       // Fetch hospital locations
-      const locResponse = await fetch('http://localhost:5000/api/locations/stats');
+      const locResponse = await fetch('${BASE_URL}/api/locations/stats');
       if (!locResponse.ok) throw new Error('Failed to fetch location data');
       const { stats: locations } = await locResponse.json();
       console.log('Locations received:', locations);

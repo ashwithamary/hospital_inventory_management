@@ -39,6 +39,9 @@ function LocationDashboard() {
     return Math.round((location.totalItems / location.capacity) * 100);
   };
 
+  const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
+
   useEffect(() => {
     fetchLocationData();
   }, [selectedRegion, selectedType]);
@@ -46,7 +49,7 @@ function LocationDashboard() {
   const fetchLocationData = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:5000/api/locations/stats', {
+      const response = await fetch('${BASE_URL}/api/locations/stats', {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
